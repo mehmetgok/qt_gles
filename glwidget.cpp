@@ -207,7 +207,7 @@ const char *shader_vertex_source="\n\
 
 
 const char *shader_fragment_source="\n\
-       mediump float;\n\
+       precision mediump float;\n\
         \n\
         \n\
         \n\
@@ -389,7 +389,6 @@ void GLWidget::paintGL()
      painter.drawText(20, 60, "Test Me");
      painter.drawText(20, 80, "Test Me");
      painter.drawText(20, 100, "Test Me");
-
 
      painter.end();
 
