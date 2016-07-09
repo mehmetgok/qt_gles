@@ -22,3 +22,12 @@ HEADERS  += mainwindow.h \
     glwidget.h
 
 FORMS    += mainwindow.ui
+
+
+linux-beaglebone-g++ {
+    message("* Using ARM compiler. *")
+
+    target.path = /home/ubuntu
+    INSTALLS += target
+
+}
