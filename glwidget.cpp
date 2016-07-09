@@ -207,7 +207,9 @@ const char *shader_vertex_source="\n\
 
 
 const char *shader_fragment_source="\n\
-       precision mediump float;\n\
+        #ifdef GL_ES\n\
+            precision mediump float;\n\
+        #endif\n\
         \n\
         \n\
         \n\
