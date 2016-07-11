@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>471</width>
-    <height>325</height>
+    <width>664</width>
+    <height>459</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -27,6 +27,10 @@
         <property name="text">
          <string>Draw</string>
         </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>../../../Downloads/ooo_draw_tpl.png</normaloff>../../../Downloads/ooo_draw_tpl.png</iconset>
+        </property>
        </widget>
       </item>
       <item>
@@ -38,6 +42,16 @@
         </property>
         <property name="text">
          <string>Exit</string>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>../../../Downloads/Gnome-Application-Exit-64.png</normaloff>../../../Downloads/Gnome-Application-Exit-64.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>16</width>
+          <height>16</height>
+         </size>
         </property>
        </widget>
       </item>

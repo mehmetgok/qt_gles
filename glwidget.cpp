@@ -152,6 +152,10 @@ GLWidget::GLWidget(QWidget *parent)
 
      updateGraph = false;
 
+
+
+
+
 }
 
 GLWidget::~GLWidget()
@@ -380,17 +384,26 @@ void GLWidget::paintGL()
               f->glDisableVertexAttribArray(_position);
 
               f->glDisableVertexAttribArray(_color);
+
               f->glFlush();
 
 
-                 m_program->release();
+
+
+
+
+     m_program->release();
 
      painter.endNativePainting();
 
-     painter.drawText(20, 40, "Test Me");
-     painter.drawText(20, 60, "Test Me");
-     painter.drawText(20, 80, "Test Me");
-     painter.drawText(20, 100, "Test Me");
+
+     int y_pos = (double)(this->height())*23.0/408.0-(this->width()/1.0)/(this->height()/1.0);
+
+     int x_pos = (double)(this->width())*15.0/642.0;
+
+
+     painter.drawText(x_pos, y_pos, "30");
+
 
      painter.end();
 
@@ -401,6 +414,10 @@ void GLWidget::paintGL()
       updateGraph = false;
 
    //   doneCurrent(); --> This will be called automatically
+
+
+
+
 
 }
 
@@ -413,7 +430,7 @@ void GLWidget::resizeGL(int w, int h)
 
 }
 
-void GLWidget::setData(short *drawData)
+void GLWidget::setData(double *drawData)
 {
 
     int ind = 0;
@@ -421,8 +438,20 @@ void GLWidget::setData(short *drawData)
     for (int i=0;i<2000;i++)
     {
         signal_vertices[ind++] = i/1.0;
-        signal_vertices[ind++] = drawData[i];
+        signal_vertices[ind++] = drawData[i]/1.0;
         signal_vertices[ind++] = 0.0;
 
     }
+}
+
+void GLWidget::mousePressEvent(QMouseEvent *ev)
+{
+    QString x = QString::number(ev->x());
+    QString y = QString::number(ev->y());
+
+    qDebug() << "X Pos: " << x << ", Y Pos: " << y;
+
+    qDebug("Height: %d, Width: %d", this->height(), this->width());
+
+
 }

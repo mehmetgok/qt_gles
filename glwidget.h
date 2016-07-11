@@ -7,8 +7,10 @@
 #include <QOpenGLBuffer>
 #include <QMatrix4x4>
 
+
 #include <QPainter>
 #include <QFont>
+
 
 QT_FORWARD_DECLARE_CLASS(QOpenGLShaderProgram)
 
@@ -23,17 +25,18 @@ public:
     QSize minimumSizeHint() const Q_DECL_OVERRIDE;
     QSize sizeHint() const Q_DECL_OVERRIDE;
 
-
-
-    void setData(short *drawData);
+    void setData(double *drawData);
 
     bool updateGraph;
+
+    void mousePressEvent( QMouseEvent* ev );
 
 
 public slots:
     void cleanup();
 
 signals:
+    void mousePressed( const QPoint& );
 
 protected:
     void initializeGL() Q_DECL_OVERRIDE;
@@ -41,6 +44,7 @@ protected:
     void resizeGL(int width, int height) Q_DECL_OVERRIDE;
 
 private:
+
     void setupVertexAttribs();
 
     QOpenGLShaderProgram *m_program;

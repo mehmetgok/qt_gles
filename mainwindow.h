@@ -26,6 +26,9 @@ private:
     Ui::MainWindow *ui;
 
     clsChrono krono;
+
+
+    double *signalData;
 };
 
 #endif // MAINWINDOW_H
