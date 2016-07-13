@@ -75,7 +75,7 @@ GLWidget::GLWidget(QWidget *parent)
         mesh_vertices[ind++] = starty;
         mesh_vertices[ind++] = 0.0f;
 
-        starty+=2;
+        starty += 2;
     }
 
     for (int i=0;i<21;i++)
@@ -88,7 +88,7 @@ GLWidget::GLWidget(QWidget *parent)
         mesh_vertices[ind++] = -10;
         mesh_vertices[ind++] = 0.0f;
 
-        startx+=100;
+        startx += 100;
 
     }
 
@@ -276,17 +276,25 @@ void GLWidget::initializeGL()
 
   //  m_program->bindAttributeLocation("vertex", 0);
   //  m_program->bindAttributeLocation("normal", 1);
-    m_program->link();
+      m_program->link();
 
-    m_program->bind();
+        m_program->bind();
 
         _position = m_program->attributeLocation("position");
         _color = m_program->attributeLocation("color");
 
 
-        QMatrix4x4 projection;
+
+        m_projMatrixLoc = m_program->uniformLocation("projection");
+
+
         projection.ortho(-100, 2100, -11, 11, -1, 1);
-        m_program->setUniformValue("projection", projection);
+        m_program->setUniformValue(m_projMatrixLoc , projection);
+
+
+
+
+
 
 
         // Store the vertex attribute bindings for the program.
@@ -341,6 +349,8 @@ void GLWidget::paintGL()
     QPainter painter;
       painter.begin(this);
 
+      painter.setRenderHint(QPainter::Antialiasing, false);
+
       painter.beginNativePainting();
 
 
@@ -349,6 +359,8 @@ void GLWidget::paintGL()
 
     glClearColor(0.0, 0.4, 0.0, 0.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+      m_program->setUniformValue(m_projMatrixLoc , projection);
 
 
       QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
@@ -389,20 +401,24 @@ void GLWidget::paintGL()
 
 
 
-
-
-
      m_program->release();
 
      painter.endNativePainting();
 
 
-     int y_pos = (double)(this->height())*23.0/408.0-(this->width()/1.0)/(this->height()/1.0);
+     int y_pos = (double)(this->height())*23.0/408.0-(this->width()/1.0)/(this->height()/1.0) -
+             (double)this->width()/(double)this->height();
 
-     int x_pos = (double)(this->width())*15.0/642.0;
+     int x_pos = (double)(this->width())*15.0/642.0 + this->width()/200.0;
+
+
+     int delta =  25.0*(double)this->width()/(double)this->height();
+
 
 
      painter.drawText(x_pos, y_pos, "30");
+
+      painter.drawText(x_pos, y_pos+delta, "20");
 
 
      painter.end();
@@ -426,7 +442,20 @@ void GLWidget::paintGL()
 void GLWidget::resizeGL(int w, int h)
 {
 
- glViewport(0.0, 0.0, w, h);
+ // Bu işe yaramaz, GUI ve OpenGL bir arada kullanılırsa Qt kendi
+    // çizimi için de OpenGL kullandığından bunun bir anlamı yok
+ // glViewport(0.0, 0.0, w, h);
+
+ // updateGraph = true;
+
+
+   //projection.setToIdentity();
+  // projection.perspective(45.0f, GLfloat(w) / h, 0.01f, 100.0f);
+
+
+
+
+
 
 }
 
@@ -449,9 +478,49 @@ void GLWidget::mousePressEvent(QMouseEvent *ev)
     QString x = QString::number(ev->x());
     QString y = QString::number(ev->y());
 
+
+
+
+
+
+
     qDebug() << "X Pos: " << x << ", Y Pos: " << y;
 
     qDebug("Height: %d, Width: %d", this->height(), this->width());
+
+
+
+
+    QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
+
+
+    float posZ;
+
+    QMatrix4x4 inverted  = projection.inverted();
+
+
+       f->glReadPixels(ev->x(), ev->y(), 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &posZ);
+
+       QVector4D clickedPointOnScreen(ev->x(), ev->y(), posZ, 1.0f);
+       QVector4D clickedPointIn3DOrgn = inverted * clickedPointOnScreen;
+
+         qDebug() << clickedPointIn3DOrgn.toVector3D();
+
+
+}
+
+void GLWidget::setOrhto()
+{
+
+   // projection.setToIdentity();
+   // projection.perspective(45.0f, GLfloat(w) / h, 0.01f, 100.0f);
+
+    projection.setToIdentity();
+    projection.ortho(-100, 2100, -15, 15, -1, 1);
+
+
+
+
 
 
 }

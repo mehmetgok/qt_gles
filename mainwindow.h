@@ -22,6 +22,8 @@ private slots:
 
     void on_actionDraw_triggered();
 
+    void on_pushButton_clicked();
+
 private:
     Ui::MainWindow *ui;
 

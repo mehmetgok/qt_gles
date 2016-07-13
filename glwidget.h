@@ -31,6 +31,8 @@ public:
 
     void mousePressEvent( QMouseEvent* ev );
 
+     void setOrhto();
+
 
 public slots:
     void cleanup();
@@ -46,6 +48,8 @@ protected:
 private:
 
     void setupVertexAttribs();
+
+
 
     QOpenGLShaderProgram *m_program;
 
@@ -64,6 +68,8 @@ private:
      // For signal drawing
      GLfloat *signal_vertices;
      GLfloat *signal_colors;
+
+        QMatrix4x4 projection;
 
 
 };

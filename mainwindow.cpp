@@ -48,3 +48,8 @@ void MainWindow::on_actionDraw_triggered()
 
     qDebug("usec: %f", krono.getElapsed_us());
 }
+
+void MainWindow::on_pushButton_clicked()
+{
+    ui->widSignal->setOrhto();
+}
